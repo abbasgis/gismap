@@ -10,13 +10,10 @@
 
     <!-- BOOTSTRAP -->
     <!-- Latest compiled and minified CSS -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
-          integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link rel="stylesheet" href="libs/bootstrap-3.3.7/css/bootstrap.min.css">
 
     <!-- Optional theme -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css"
-          integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
-
+    <link rel="stylesheet" href="libs/bootstrap-select/bootstrap-select.min.css"/>
     <!-- Leaflet Styles -->
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.0.3/dist/leaflet.css"/>
 
@@ -67,23 +64,24 @@
         <div class="row">
             <div class="col-sm-3" style="background-color:#C0E970;">
                 <div class="panel panel-default">
-                    <div class="panel-heading">Panel Heading</div>
+                    <div class="panel-heading">Search Plot</div>
                     <div class="panel-body">
                         <div class="form-group">
-                            <label for="sel1">Select Sector:</label>
-                            <select class="form-control" id="sel1">
+                            <label for="cmb_sectors">Select Sector:</label>
+                            <select class="show-tick form-control selectpicker" id="cmb_sectors"
+                                    data-style="btn-primary"
+                                    data-live-search="true">
                                 <option>Select One</option>
-                                <option>P</option>
+                                <option>M</option>
                                 <option>Q</option>
                                 <option>R</option>
                             </select></div>
                         <div class="form-group">
-                            <label for="plot">Select Plot:</label>
-                            <select class="form-control" id="plot">
-                                <option>1</option>
-                                <option>2</option>
-                                <option>3</option>
-                                <option>4</option>
+                            <label for="cmb_plots">Select Plot:</label>
+                            <select class="show-tick form-control selectpicker" id="cmb_plots"
+                                    data-style="btn-success"
+                                    data-live-search="true">
+                                <option>Select One</option>
                             </select></div>
 
                     </div>
@@ -98,25 +96,15 @@
 </div>
 
 <!-- jQuery -->
-<script
-        src="https://code.jquery.com/jquery-3.2.0.slim.min.js"
-        integrity="sha256-qLAv0kBAihcHZLI3fv3WITKeRsUX27hd6upBBa0MSow="
-        crossorigin="anonymous"></script>
-
-<!-- Latest compiled and minified JavaScript -->
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
-        integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
-        crossorigin="anonymous"></script>
-
+<script src="libs/jquery/3.4.1/jquery.min.js"></script>
+<script src="libs/bootstrap-3.3.7/js/bootstrap.min.js"></script>
+<script src="libs/bootstrap-select/bootstrap-select.min.js"></script>
 <!-- Resize Map *Make sure this is before Leaflet -->
 <script type="text/javascript" src="assets/js/resize_map.js"></script>
 
 <!-- LEAFLET -->
 <script src="https://unpkg.com/leaflet@1.0.3/dist/leaflet.js"></script>
-
-<!-- LEAFLET_BOOTSTRAP -->
-<script type="text/javascript" src="assets/js/map.js"></script>
-<script src="https://code.jquery.com/jquery-1.10.1.min.js"></script>
 <script src="assets/js/L.TileLayer.BetterWMS.js"></script>
+<script type="text/javascript" src="assets/js/map.js"></script>
 </body>
 </html>

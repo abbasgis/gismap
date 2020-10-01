@@ -2,6 +2,7 @@
 var map;
 $(document).ready(function () {
     initmap();
+    $('.selectpicker').selectpicker('refresh');
 });
 
 function initmap() {
@@ -11,6 +12,8 @@ function initmap() {
     // set up the map
     map = new L.Map("map");
     map.setView(new L.LatLng(lat, lng), zoom);
+    var scale = L.control.scale();
+    scale.addTo(map);
     // map.addLayer(Stamen_Terrain);
     var baseLayers = addBaseLayersToMap(map);
     var cities = L.layerGroup();
@@ -29,7 +32,7 @@ function initmap() {
     };
 
     L.control.layers(baseLayers, overlays).addTo(map);
-    addControlsToMap(map);
+
 }
 
 function addBaseLayersToMap(map) {
@@ -55,23 +58,34 @@ function addBaseLayersToMap(map) {
 
 }
 
-function addControlsToMap(map) {
+function addPlotsToComboOnSectorChange() {
 // Creating scale control
-    var scale = L.control.scale();
-// Adding scale control to the map
-    scale.addTo(map);
-    var url = "http://localhost:8080/geoserver/cite/wms?service=WFS&version=1.2.0&request=GetFeature&typeName=cite:M_Q_R_Combined&PROPERTYNAME=Sector&CQL_FILTER=Sector='P'&outputformat=application/json";
+
+
+}
+
+$('#cmb_sectors').on('change', function (e) {
+    var val = $('#cmb_sectors').val();
+    var url = "http://localhost:8080/geoserver/cite/wms?service=WFS&version=1.2.0&request=GetFeature&typeName=cite:M_Q_R_Combined&CQL_FILTER=Sector='" + val + "'&outputformat=application/json";
     $.ajax({
         url: url,
         success: function (data, status, xhr) {
+            $('#cmb_plots').empty();
+            var f = data.features;
+            if (f.length > 0) {
+                for (var key in f) {
+                    var prop = f[key].properties;
+                    var txtOption = '<option value="' + prop.Plot_No + '"';
+                    txtOption += '>' + prop.Plot_No + '</option>';
+                    $('#cmb_plots').append(txtOption);
+                }
 
+            }
+            $('.selectpicker').selectpicker('refresh');
 
         },
         error: function (xhr, status, error) {
 
         }
     });
-
-
-}
-
+});
