@@ -17,7 +17,7 @@ function initmap() {
     // map.addLayer(Stamen_Terrain);
     var baseLayers = addBaseLayersToMap(map);
     var cities = L.layerGroup();
-    var wmsLayer = L.tileLayer.betterWms("http://localhost:8080/geoserver/cite/wms", {
+    var wmsLayer = L.tileLayer.betterWms("http://localhost:9012/geoserver/cite/wms", {
         layers: 'cite:M_Q_R_Combined',
         format: 'image/png',
         transparent: true,
@@ -30,7 +30,6 @@ function initmap() {
     var overlays = {
         "Cities": wmsLayer
     };
-
     L.control.layers(baseLayers, overlays).addTo(map);
 
 }
@@ -66,7 +65,7 @@ function addPlotsToComboOnSectorChange() {
 
 $('#cmb_sectors').on('change', function (e) {
     var val = $('#cmb_sectors').val();
-    var url = "http://localhost:8080/geoserver/cite/wms?service=WFS&version=1.2.0&request=GetFeature&typeName=cite:M_Q_R_Combined&CQL_FILTER=Sector='" + val + "'&outputformat=application/json";
+    var url = "http://localhost:9012/geoserver/cite/wms?service=WFS&version=1.2.0&request=GetFeature&typeName=cite:M_Q_R_Combined&CQL_FILTER=Sector='" + val + "'&outputformat=application/json";
     $.ajax({
         url: url,
         success: function (data, status, xhr) {
