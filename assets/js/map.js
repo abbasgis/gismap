@@ -1,7 +1,9 @@
 /* global L */ // JS Hint
 var map;
+var selection_layer;
 $(document).ready(function () {
-    initmap();
+    map = initmap();
+    createSelectionLayer(map);
     comboChangeManagement();
     $('.selectpicker').selectpicker('refresh');
 });
@@ -89,15 +91,29 @@ function initmap() {
     map.on('singleclick', function (evt) {
         var view = map.getView();
         var viewResolution = view.getResolution();
-        var source = untiled.get('visible') ? untiled.getSource() : tiled.getSource();
+        var source = tiled.get('visible') ? tiled.getSource() : tiled.getSource();
         var url = source.getGetFeatureInfoUrl(
             evt.coordinate, viewResolution, view.getProjection(),
-            {'INFO_FORMAT': 'text/html', 'FEATURE_COUNT': 50});
-        if (url) {
-            // document.getElementById('nodelist').innerHTML = '<iframe seamless src="' + url + '"></iframe>';
-        }
-    });
+            {'INFO_FORMAT': 'application/json', 'FEATURE_COUNT': 1});
+        $.ajax({
+            url: url,
+            success: function (data, status, xhr) {
+                var f = data.features;
+                if(f.length > 0){
+                selectAndZoomFeature(f[0]);
+                }else{
+                    alert("No Record Found")
+                }
+            },
+            error: function (xhr, status, error) {
 
+            }
+        });
+        // if (url) {
+        //     document.getElementById('nodelist').innerHTML = '<iframe seamless src="' + url + '"></iframe>';
+        // }
+    });
+    return map;
 }
 
 function getControls() {
@@ -124,15 +140,19 @@ function getControls() {
     return controls;
 }
 
+var features = [];
+
 function comboChangeManagement() {
     $('#cmb_sectors').on('change', function (e) {
+        features = [];
         var val = $('#cmb_sectors').val();
         var url = "http://localhost:9012/geoserver/cite/wms?service=WFS&version=1.2.0&request=GetFeature&typeName=cite:M_Q_R_Combined&CQL_FILTER=Sector='" + val + "'&outputformat=application/json";
         $.ajax({
             url: url,
             success: function (data, status, xhr) {
                 $('#cmb_plots').empty();
-                var f = data.features;
+                features = data.features;
+                var f = features;
                 if (f.length > 0) {
                     for (var key in f) {
                         var prop = f[key].properties;
@@ -150,4 +170,60 @@ function comboChangeManagement() {
             }
         });
     });
+    $('#cmb_plots').on('change', function (e) {
+        var plot_no = $('#cmb_plots').val();
+        var feature = getPlotDetailFromFeatureArray(features, plot_no);
+        selectAndZoomFeature(feature);
+    });
+}
+
+function createSelectionLayer(map) {
+
+    selection_layer = new ol.layer.Vector({
+        displayInLayerSwitcher: true,
+        title: 'Selection Layer',
+        source: new ol.source.Vector({
+            features: []
+        }),
+
+        style: new ol.style.Style({
+            fill: new ol.style.Fill({
+                color: 'rgba(255, 255, 255, 0.2)'
+            }),
+            stroke: new ol.style.Stroke({
+                color: '#ffcc33',
+                width: 2
+            }),
+        })
+    });
+    map.addLayer(selection_layer);
+    selection_layer.set('name', 'selectLayer');
+
+}
+
+function getPlotDetailFromFeatureArray(features, plot) {
+    var feature = null;
+    for (var i = 0; i < features.length; i++) {
+        var prop_plot_no = features[i].properties.Plot_No
+        if (prop_plot_no == plot) {
+            return features[i];
+        }
+    }
+    return feature
+}
+
+function selectAndZoomFeature(feature) {
+    setAttributeValues(feature.properties);
+    var selectionSource = selection_layer.getSource();
+    selection_layer.getSource().clear();
+    var f = (new ol.format.GeoJSON()).readFeatures(feature);
+    selectionSource.addFeatures(f);
+    var extent = selectionSource.getExtent();
+    map.getView().fit(extent, map.getSize());
+}
+
+function setAttributeValues(prop) {
+    $("#sector").text(prop.Sector);
+    $("#plot_no").text(prop.Plot_No);
+    $("#plot_type").text(prop.Type);
 }

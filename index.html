@@ -15,8 +15,8 @@
     <!-- Optional theme -->
     <link rel="stylesheet" href="libs/bootstrap-select/bootstrap-select.min.css"/>
     <link rel="stylesheet" href="https://openlayers.org/en/latest/examples/css/ol.css"/>
-      <link rel="stylesheet" href="assets/css/gismap.css"/>
-     <link rel="stylesheet" href="libs/openlayers-v4.6.5/layerswitcher/ol3-layerswitcher.css"/>
+    <link rel="stylesheet" href="assets/css/gismap.css"/>
+    <link rel="stylesheet" href="libs/openlayers-v4.6.5/layerswitcher/ol3-layerswitcher.css"/>
 
 </head>
 <body>
@@ -83,25 +83,41 @@
 
                     </div>
                 </div>
+                <div class="panel panel-default">
+                    <div class="panel-heading">Plot Detail</div>
+                    <div class="panel-body">
+                        <div class="form-group">
+                            <label for="sector">Sector:</label>
+                            <span style="margin-left: 20px" id="sector"></span>
+                        </div>
+                        <div class="form-group">
+                            <label for="plot_no">Plot No:</label>
+                            <span style="margin-left: 10px" type="text" id="plot_no"></span>
+                        </div>
+                        <div class="form-group">
+                            <label for="plot_type">Plot Type:</label>
+                            <span type="text" id="plot_type"></span>
+
+                        </div>
+                    </div>
+                </div>
             </div>
             <div class="col-sm-9" id="map-holder" style="background-color:#87C342;">Map
                 <div id="map"></div>
             </div>
-
         </div>
     </div>
-</div>
 
-<!-- jQuery -->
-<script src="libs/jquery/3.4.1/jquery.min.js"></script>
-<script src="libs/bootstrap-3.3.7/js/bootstrap.min.js"></script>
-<script src="libs/bootstrap-select/bootstrap-select.min.js"></script>
-<!-- Resize Map *Make sure this is before Leaflet -->
-<script src="libs/openlayers-v4.6.5/ol/ol.js"></script>
-<script src="libs/openlayers-v4.6.5/layerswitcher/ol3-layerswitcher.js"></script>
-<script type="text/javascript" src="assets/js/resize_map.js"></script>
+    <!-- jQuery -->
+    <script src="libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="libs/bootstrap-3.3.7/js/bootstrap.min.js"></script>
+    <script src="libs/bootstrap-select/bootstrap-select.min.js"></script>
+    <!-- Resize Map *Make sure this is before Leaflet -->
+    <script src="libs/openlayers-v4.6.5/ol/ol.js"></script>
+    <script src="libs/openlayers-v4.6.5/layerswitcher/ol3-layerswitcher.js"></script>
+    <script type="text/javascript" src="assets/js/resize_map.js"></script>
 
-<!-- LEAFLET -->
-<script type="text/javascript" src="assets/js/map.js"></script>
+    <!-- LEAFLET -->
+    <script type="text/javascript" src="assets/js/map.js"></script>
 </body>
 </html>
